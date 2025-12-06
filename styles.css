@@ -1,0 +1,492 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f0f0f0;
+    padding: 20px;
+}
+
+/* Contenedor principal del banner */
+.banner-container {
+    width: 300px;
+    height: 600px;
+    background: linear-gradient(180deg, #1a1a4d 0%, #2d1b4e 50%, #1a1a4d 100%);
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Efecto de estrellas de fondo */
+.banner-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent);
+    background-size: 200% 200%;
+    animation: twinkle 3s ease-in-out infinite;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Header */
+.banner-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    z-index: 10;
+}
+
+.logo {
+    height: auto;
+    width: 100px;
+    max-height: 40px;
+    object-fit: contain;
+}
+
+/* Personaje IA - Reyes Magos */
+.ai-character {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    z-index: 10;
+}
+
+.reyes-magos-img {
+    width: 220px;
+    height: auto;
+    /* Contorno dorado brillante */
+    filter: 
+        drop-shadow(0 0 3px #FFD700)
+        drop-shadow(0 0 6px rgba(255, 215, 0, 0.8))
+        drop-shadow(0 0 12px rgba(255, 165, 0, 0.5));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Bocadillo de diálogo */
+.dialogue-bubble {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 10;
+}
+
+.dialogue-bubble::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid rgba(255, 255, 255, 0.95);
+}
+
+.greeting-text {
+    color: #1a1a4d;
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.greeting-text strong {
+    color: #003D7A;
+}
+
+.sub-text {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* CTA Section - Estilo WhatsApp */
+.cta-section {
+    margin-top: auto;
+    z-index: 10;
+    position: relative;
+}
+
+.input-container {
+    display: flex;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 28px;
+    padding: 6px 6px 6px 16px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.input-container:focus-within {
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.message-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 10px 5px;
+    font-size: 15px;
+    outline: none;
+    min-width: 0;
+}
+
+.message-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Botón de acción (mic/enviar) estilo WhatsApp */
+.action-button {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border: none;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.action-button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+}
+
+.action-button:active {
+    transform: scale(0.95);
+}
+
+/* Modo enviar - verde */
+.action-button[data-mode="send"] {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+.action-button[data-mode="send"]:hover {
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+/* Modo escuchando - rojo pulsante */
+.action-button.listening {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.benefits-text {
+    color: #FFD700;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 12px;
+    opacity: 0.9;
+}
+
+/* Animación de pulso para mic activo */
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+    }
+    50% { 
+        transform: scale(1.15); 
+        box-shadow: 0 6px 25px rgba(255, 0, 0, 0.8);
+    }
+}
+
+/* Estado oculto para transición */
+.hidden {
+    display: none !important;
+}
+
+/* Productos flotantes decorativos */
+.floating-products {
+    position: absolute;
+    bottom: 120px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    pointer-events: none;
+}
+
+.product-icon {
+    font-size: 24px;
+    opacity: 0.3;
+    animation: floatProduct 3s ease-in-out infinite;
+}
+
+.product-icon:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.product-icon:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.product-icon:nth-child(3) {
+    animation-delay: 1s;
+}
+
+@keyframes floatProduct {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+        opacity: 0.3;
+    }
+    50% { 
+        transform: translateY(-15px) rotate(10deg); 
+        opacity: 0.6;
+    }
+}
+
+/* Products Container */
+.products-container {
+    display: none;
+    margin: 10px 0;
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 5px 0;
+    z-index: 10;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Product Card */
+.product-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    animation: slideUp 0.4s ease-out both;
+    cursor: pointer;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 1);
+}
+
+.product-card:active {
+    transform: translateY(-1px) scale(1.01);
+}
+
+/* Indicador de clickeable */
+.product-card::after {
+    content: '→';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #003D7A;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover::after {
+    opacity: 0.5;
+    right: 8px;
+}
+
+.product-image {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.discount-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 6px;
+}
+
+.product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.product-name {
+    color: #1a1a4d;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-brand {
+    color: #666;
+    font-size: 11px;
+    margin: 0;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+}
+
+.old-price {
+    color: #999;
+    font-size: 11px;
+    text-decoration: line-through;
+}
+
+.final-price {
+    color: #003D7A;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.product-store {
+    color: #666;
+    font-size: 10px;
+    margin: 0;
+}
+
+.product-cta {
+    background: linear-gradient(135deg, #003D7A 0%, #0052a3 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 3px;
+    transition: all 0.3s ease;
+}
+
+.product-cta:hover {
+    background: linear-gradient(135deg, #0052a3 0%, #003D7A 100%);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 61, 122, 0.3);
+}
+
+.product-cta:active {
+    transform: scale(0.98);
+}
+
+/* Ver más button */
+.view-more-btn {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+    border: none;
+    border-radius: 10px;
+    color: #1a1a4d;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: all 0.3s ease;
+}
+
+.view-more-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+/* Scrollbar personalizado */
+.products-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.products-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.products-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.5);
+    border-radius: 2px;
+}
+
+.products-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.8);
+}
+
+/* Responsivo - para testing en diferentes tamaños */
+@media (max-width: 320px) {
+    .banner-container {
+        width: 280px;
+        height: 560px;
+    }
+}

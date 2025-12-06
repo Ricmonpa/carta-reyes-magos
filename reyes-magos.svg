@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <defs>
+    <!-- Gradientes -->
+    <linearGradient id="starGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FFA500"/>
+    </linearGradient>
+    <radialGradient id="starAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0"/>
+    </radialGradient>
+    <linearGradient id="robeRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC143C"/>
+      <stop offset="100%" style="stop-color:#8B0000"/>
+    </linearGradient>
+    <linearGradient id="robeBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4169E1"/>
+      <stop offset="100%" style="stop-color:#191970"/>
+    </linearGradient>
+    <linearGradient id="robeGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#228B22"/>
+      <stop offset="100%" style="stop-color:#006400"/>
+    </linearGradient>
+    <linearGradient id="camelBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D2A679"/>
+      <stop offset="100%" style="stop-color:#A0826D"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="50%" style="stop-color:#FFC125"/>
+      <stop offset="100%" style="stop-color:#DAA520"/>
+    </linearGradient>
+    <!-- Filtro de brillo -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Estrella de Belén con rayos -->
+  <g filter="url(#glow)">
+    <!-- Aura de la estrella -->
+    <circle cx="150" cy="25" r="20" fill="url(#starAura)" opacity="0.6">
+      <animate attributeName="r" values="20;25;20" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Rayos de la estrella -->
+    <g fill="url(#starGlow)">
+      <polygon points="150,5 153,20 150,15 147,20" opacity="0.8"/>
+      <polygon points="150,45 153,30 150,35 147,30" opacity="0.8"/>
+      <polygon points="130,25 145,28 140,25 145,22" opacity="0.8"/>
+      <polygon points="170,25 155,28 160,25 155,22" opacity="0.8"/>
+      <!-- Rayos diagonales -->
+      <polygon points="135,10 145,22 142,20 148,18" opacity="0.6"/>
+      <polygon points="165,10 155,22 158,20 152,18" opacity="0.6"/>
+      <polygon points="135,40 145,28 142,30 148,32" opacity="0.6"/>
+      <polygon points="165,40 155,28 158,30 152,32" opacity="0.6"/>
+    </g>
+    <!-- Estrella central -->
+    <polygon points="150,8 154,20 167,20 156,28 160,40 150,32 140,40 144,28 133,20 146,20" fill="url(#gold)">
+      <animate attributeName="opacity" values="1;0.8;1" dur="1.5s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
+
+  <!-- Camello 1 (izquierda) -->
+  <g transform="translate(20, 90)">
+    <!-- Cuerpo -->
+    <ellipse cx="35" cy="60" rx="30" ry="20" fill="url(#camelBody)"/>
+    <!-- Joroba -->
+    <ellipse cx="35" cy="45" rx="12" ry="15" fill="url(#camelBody)"/>
+    <!-- Cuello -->
+    <path d="M 55 50 Q 70 30 65 15" stroke="#A0826D" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <!-- Cabeza -->
+    <ellipse cx="68" cy="12" rx="12" ry="8" fill="#D2A679"/>
+    <!-- Ojo -->
+    <circle cx="73" cy="10" r="2" fill="#2C1810"/>
+    <!-- Patas -->
+    <line x1="20" y1="75" x2="15" y2="100" stroke="#A0826D" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="75" x2="55" y2="100" stroke="#A0826D" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Rey Melchor (izquierda - rojo) -->
+  <g transform="translate(30, 55)">
+    <!-- Cuerpo/Túnica -->
+    <path d="M 25 45 L 10 95 L 40 95 Z" fill="url(#robeRed)"/>
+    <!-- Capa -->
+    <path d="M 20 50 Q 5 70 15 95" stroke="#FFD700" stroke-width="2" fill="none"/>
+    <!-- Cabeza -->
+    <circle cx="25" cy="38" r="12" fill="#8B5A2B"/>
+    <!-- Barba blanca -->
+    <ellipse cx="25" cy="48" rx="8" ry="6" fill="#F5F5F5"/>
+    <!-- Corona -->
+    <path d="M 15 28 L 17 20 L 22 26 L 25 18 L 28 26 L 33 20 L 35 28 Z" fill="url(#gold)"/>
+    <!-- Ojos -->
+    <circle cx="22" cy="36" r="1.5" fill="#2C1810"/>
+    <circle cx="28" cy="36" r="1.5" fill="#2C1810"/>
+    <!-- Regalo -->
+    <rect x="35" y="60" width="12" height="10" fill="#FFD700" rx="1"/>
+    <line x1="41" y1="60" x2="41" y2="70" stroke="#DC143C" stroke-width="2"/>
+    <line x1="35" y1="65" x2="47" y2="65" stroke="#DC143C" stroke-width="2"/>
+  </g>
+
+  <!-- Camello 2 (centro) -->
+  <g transform="translate(110, 85)">
+    <!-- Cuerpo -->
+    <ellipse cx="35" cy="65" rx="32" ry="22" fill="url(#camelBody)"/>
+    <!-- Joroba -->
+    <ellipse cx="35" cy="48" rx="14" ry="17" fill="url(#camelBody)"/>
+    <!-- Cuello -->
+    <path d="M 55 55 Q 75 30 70 10" stroke="#A0826D" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <!-- Cabeza -->
+    <ellipse cx="73" cy="8" rx="13" ry="9" fill="#D2A679"/>
+    <!-- Ojo -->
+    <circle cx="78" cy="6" r="2" fill="#2C1810"/>
+    <!-- Patas -->
+    <line x1="18" y1="82" x2="12" y2="108" stroke="#A0826D" stroke-width="6" stroke-linecap="round"/>
+    <line x1="52" y1="82" x2="58" y2="108" stroke="#A0826D" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Rey Gaspar (centro - azul) -->
+  <g transform="translate(120, 45)">
+    <!-- Cuerpo/Túnica -->
+    <path d="M 30 50 L 12 105 L 48 105 Z" fill="url(#robeBlue)"/>
+    <!-- Detalles dorados -->
+    <path d="M 22 60 L 30 105" stroke="#FFD700" stroke-width="1.5"/>
+    <path d="M 38 60 L 30 105" stroke="#FFD700" stroke-width="1.5"/>
+    <!-- Cabeza -->
+    <circle cx="30" cy="42" r="13" fill="#DEB887"/>
+    <!-- Cabello/Turbante -->
+    <path d="M 18 38 Q 20 28 30 26 Q 40 28 42 38" fill="#4B0082"/>
+    <!-- Corona sobre turbante -->
+    <path d="M 20 30 L 23 22 L 28 28 L 30 20 L 32 28 L 37 22 L 40 30 Z" fill="url(#gold)"/>
+    <!-- Ojos -->
+    <circle cx="26" cy="40" r="1.5" fill="#2C1810"/>
+    <circle cx="34" cy="40" r="1.5" fill="#2C1810"/>
+    <!-- Barba corta -->
+    <ellipse cx="30" cy="50" rx="6" ry="4" fill="#4A3728"/>
+    <!-- Regalo (incienso) -->
+    <rect x="45" y="65" width="10" height="15" fill="#C0C0C0" rx="2"/>
+    <ellipse cx="50" cy="62" rx="3" ry="2" fill="#FFD700"/>
+  </g>
+
+  <!-- Camello 3 (derecha) -->
+  <g transform="translate(195, 92)">
+    <!-- Cuerpo -->
+    <ellipse cx="35" cy="58" rx="28" ry="18" fill="url(#camelBody)"/>
+    <!-- Joroba -->
+    <ellipse cx="35" cy="44" rx="11" ry="14" fill="url(#camelBody)"/>
+    <!-- Cuello -->
+    <path d="M 55 48 Q 68 28 63 12" stroke="#A0826D" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <!-- Cabeza -->
+    <ellipse cx="66" cy="10" rx="11" ry="7" fill="#D2A679"/>
+    <!-- Ojo -->
+    <circle cx="71" cy="8" r="2" fill="#2C1810"/>
+    <!-- Patas -->
+    <line x1="18" y1="72" x2="14" y2="95" stroke="#A0826D" stroke-width="5" stroke-linecap="round"/>
+    <line x1="48" y1="72" x2="52" y2="95" stroke="#A0826D" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Rey Baltasar (derecha - verde) -->
+  <g transform="translate(205, 57)">
+    <!-- Cuerpo/Túnica -->
+    <path d="M 25 45 L 8 92 L 42 92 Z" fill="url(#robeGreen)"/>
+    <!-- Detalles -->
+    <path d="M 25 50 L 25 92" stroke="#FFD700" stroke-width="2"/>
+    <!-- Cabeza -->
+    <circle cx="25" cy="38" r="12" fill="#3D2314"/>
+    <!-- Corona elaborada -->
+    <path d="M 14 30 L 16 18 L 20 26 L 25 15 L 30 26 L 34 18 L 36 30 Z" fill="url(#gold)"/>
+    <!-- Joya en corona -->
+    <circle cx="25" cy="22" r="3" fill="#E0115F"/>
+    <!-- Ojos -->
+    <circle cx="22" cy="36" r="1.5" fill="#F5F5F5"/>
+    <circle cx="28" cy="36" r="1.5" fill="#F5F5F5"/>
+    <!-- Sonrisa -->
+    <path d="M 21 42 Q 25 45 29 42" stroke="#F5F5F5" stroke-width="1" fill="none"/>
+    <!-- Regalo (mirra) -->
+    <ellipse cx="42" cy="62" rx="6" ry="8" fill="#8B4513"/>
+    <ellipse cx="42" cy="56" rx="4" ry="3" fill="#FFD700"/>
+  </g>
+
+  <!-- Suelo/Arena del desierto -->
+  <ellipse cx="150" cy="195" rx="140" ry="8" fill="#C2A366" opacity="0.3"/>
+</svg>
+
