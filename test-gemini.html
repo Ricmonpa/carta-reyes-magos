@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Gemini API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #357ae8;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success { color: #0f9d58; }
+        .error { color: #ea4335; }
+        .info { color: #4285f4; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test Gemini API Integration</h1>
+        
+        <div>
+            <h3>Pruebas:</h3>
+            <button onclick="testSimple()">1. Test Simple: "Quiero un iPhone"</button>
+            <button onclick="testMultiple()">2. Test Múltiple: "iPhone y smart tv"</button>
+            <button onclick="testComplex()">3. Test Complejo: "Me porté bien, quiero iPhone y tablet"</button>
+            <button onclick="testContext()">4. Test Contexto: "Algo para mi mamá"</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script src="products-data.js"></script>
+    <script src="gemini-api.js"></script>
+    <script src="config.js"></script>
+    
+    <script>
+        const resultDiv = document.getElementById('result');
+        
+        function log(message, type = 'info') {
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            resultDiv.innerHTML += `<div class="${className}">${message}</div>`;
+        }
+        
+        function clearLog() {
+            resultDiv.innerHTML = '';
+        }
+        
+        async function testAPI(message, testName) {
+            clearLog();
+            log(`🧪 ${testName}`, 'info');
+            log(`📝 Mensaje: "${message}"`, 'info');
+            log('⏳ Procesando...', 'info');
+            
+            try {
+                const api = new GeminiAPI(window.GEMINI_API_KEY);
+                api.setProductsDatabase(productsDatabase);
+                
+                const startTime = Date.now();
+                const result = await api.processMessage(message);
+                const duration = Date.now() - startTime;
+                
+                log(`✅ Éxito! (${duration}ms)`, 'success');
+                log(`📦 Productos encontrados: ${result.products.length}`, 'success');
+                log(`💬 Mensaje: ${result.message}`, 'success');
+                log(`🎯 Contexto: ${result.context}`, 'info');
+                
+                if (result.products.length > 0) {
+                    log('\n📋 Productos:', 'info');
+                    result.products.forEach((p, i) => {
+                        log(`  ${i+1}. ${p.nombre} (${p.id}) - $${p.precio_final}`, 'info');
+                    });
+                } else {
+                    log('⚠️ No se encontraron productos', 'error');
+                }
+                
+                log(`\n📊 Resultado completo:`, 'info');
+                log(JSON.stringify(result, null, 2), 'info');
+                
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+                log(`Stack: ${error.stack}`, 'error');
+            }
+        }
+        
+        async function testSimple() {
+            await testAPI('Quiero un iPhone', 'Test Simple');
+        }
+        
+        async function testMultiple() {
+            await testAPI('Quiero un iPhone y una smart tv', 'Test Múltiple');
+        }
+        
+        async function testComplex() {
+            await testAPI('Este año fue difícil pero me porté muy bien y quiero un iPhone y una tablet', 'Test Complejo');
+        }
+        
+        async function testContext() {
+            await testAPI('Quiero algo para mi mamá', 'Test Contexto');
+        }
+        
+        // Verificar configuración al cargar
+        window.addEventListener('load', () => {
+            if (window.GEMINI_API_KEY) {
+                log('✅ API Key configurada', 'success');
+                log(`🔑 Key: ${window.GEMINI_API_KEY.substring(0, 10)}...`, 'info');
+            } else {
+                log('❌ API Key NO configurada', 'error');
+                log('⚠️ Verifica que config.js esté cargado', 'error');
+            }
+            
+            if (typeof productsDatabase !== 'undefined') {
+                const totalProducts = Object.values(productsDatabase).reduce((sum, cat) => sum + cat.length, 0);
+                log(`✅ Base de datos cargada: ${totalProducts} productos`, 'success');
+            } else {
+                log('❌ Base de datos NO cargada', 'error');
+            }
+            
+            if (typeof GeminiAPI !== 'undefined') {
+                log('✅ GeminiAPI class disponible', 'success');
+            } else {
+                log('❌ GeminiAPI class NO disponible', 'error');
+            }
+        });
+    </script>
+</body>
+</html>
+

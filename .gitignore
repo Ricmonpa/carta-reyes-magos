@@ -1,0 +1,21 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.local
+.vercel
+dv360/test*/
+*.zip
+# Configuración sensible
+config.js
+
+# Archivos del sistema
+.DS_Store
+*.log
+
+# Node modules (si usas npm)
+node_modules/
+
+# Build files
+dv360/*.zip
+

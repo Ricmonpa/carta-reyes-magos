@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sanborns - Carta a los Reyes Magos</title>
+    <script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="banner-container">
         <!-- Header -->
         <header class="banner-header">
-            <img src="Logo_sanborns_bco.png" alt="Sanborns" class="logo">
+            <img src="images/logo.png" alt="Sanborns" class="logo">
         </header>
 
         <!-- Zona de personaje IA -->
         <div class="ai-character">
-            <img src="reyes-magos.svg" alt="Los Tres Reyes Magos" class="reyes-magos-img">
+            <img src="images/reyes-magos.svg" alt="Los Tres Reyes Magos" class="reyes-magos-img">
         </div>
 
         <!-- Bocadillo de diálogo -->
@@ -58,11 +59,31 @@
 
     <script src="voice.js"></script>
     <script src="products-data.js"></script>
-    <script src="gemini-api.js"></script>
-    <script src="dynamic-products.js"></script>
-    <!-- Configuración de Gemini API (opcional) -->
-    <!-- Crea config.js basado en config.example.js y agrega tu API key -->
-    <script src="config.js" onerror="console.warn('⚠️ config.js no encontrado, usando sistema de keywords')"></script>
     <script src="main.js"></script>
+    
+    <script>
+        var clickTag = "https://www.sanborns.com.mx/";
+
+        function handleBannerClick() {
+            if (typeof Enabler !== 'undefined' && Enabler.isInitialized()) {
+                Enabler.counter('CTA Click');
+                Enabler.exit('clickthrough');
+            } else {
+                window.open(clickTag, '_blank');
+            }
+        }
+
+        // Hacer todo el banner clickeable (excepto áreas interactivas)
+        document.querySelector('.banner-container').addEventListener('click', function(e) {
+            if (!e.target.closest('.input-container') && 
+                !e.target.closest('.product-card') &&
+                !e.target.closest('.action-button') &&
+                !e.target.closest('.product-cta') &&
+                !e.target.closest('.view-more-btn')) {
+                handleBannerClick();
+            }
+        });
+    </script>
 </body>
 </html>
+

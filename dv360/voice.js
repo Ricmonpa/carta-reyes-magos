@@ -1,4 +1,4 @@
-// Módulo de manejo de voz con Web Speech API
+// Módulo de manejo de voz con Web Speech API (DV360 compatible)
 class VoiceHandler {
     constructor() {
         this.recognition = null;
@@ -8,30 +8,24 @@ class VoiceHandler {
         this.onError = null;
         this.onStart = null;
         this.onEnd = null;
-        
         this.initRecognition();
     }
     
     initRecognition() {
-        // Verificar soporte del navegador
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         
         if (!SpeechRecognition) {
-            console.warn('⚠️ Web Speech API no soportada en este navegador');
             this.isSupported = false;
             return;
         }
         
         this.isSupported = true;
         this.recognition = new SpeechRecognition();
-        
-        // Configuración para español mexicano
         this.recognition.lang = 'es-MX';
-        this.recognition.continuous = false; // Una frase a la vez
-        this.recognition.interimResults = false; // Solo resultados finales
+        this.recognition.continuous = false;
+        this.recognition.interimResults = false;
         this.recognition.maxAlternatives = 1;
         
-        // Event listeners
         this.recognition.onstart = () => {
             this.isListening = true;
             if (this.onStart) this.onStart();
@@ -40,17 +34,13 @@ class VoiceHandler {
         this.recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             const confidence = event.results[0][0].confidence;
-            
             if (this.onResult) {
                 this.onResult(transcript, confidence);
             }
         };
         
         this.recognition.onerror = (event) => {
-            
-            
             let errorMessage = 'Error al capturar voz';
-            
             switch(event.error) {
                 case 'no-speech':
                     errorMessage = 'No se detectó voz. Intenta de nuevo.';
@@ -65,11 +55,9 @@ class VoiceHandler {
                     errorMessage = 'Error de conexión. Verifica tu internet.';
                     break;
             }
-            
             if (this.onError) {
                 this.onError(errorMessage, event.error);
             }
-            
             this.isListening = false;
         };
         
@@ -79,10 +67,8 @@ class VoiceHandler {
         };
     }
     
-    // Iniciar captura de voz
     start() {
         if (!this.isSupported) {
-            console.error('❌ Web Speech API no disponible');
             if (this.onError) {
                 this.onError('Tu navegador no soporta reconocimiento de voz. Usa el teclado.', 'not-supported');
             }
@@ -90,7 +76,6 @@ class VoiceHandler {
         }
         
         if (this.isListening) {
-            console.warn('⚠️ Ya está escuchando');
             return false;
         }
         
@@ -98,24 +83,20 @@ class VoiceHandler {
             this.recognition.start();
             return true;
         } catch (error) {
-            console.error('❌ Error al iniciar:', error);
             return false;
         }
     }
     
-    // Detener captura
     stop() {
         if (this.recognition && this.isListening) {
             this.recognition.stop();
         }
     }
     
-    // Verificar soporte
     checkSupport() {
         return this.isSupported;
     }
 }
 
-// Exportar para uso global
 window.VoiceHandler = VoiceHandler;
 

@@ -1,0 +1,23 @@
+{
+  "name": "carta-reyes-magos",
+  "version": "1.0.0",
+  "description": "Banner HTML5 con IA integrada para campaña navideña DV360.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ricmonpa/carta-reyes-magos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ricmonpa/carta-reyes-magos/issues"
+  },
+  "homepage": "https://github.com/Ricmonpa/carta-reyes-magos#readme",
+  "devDependencies": {
+    "wrangler": "^4.53.0"
+  }
+}

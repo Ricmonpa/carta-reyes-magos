@@ -363,14 +363,12 @@ body {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: linear-gradient(135deg, #FF6B6B 0%, #FF4444 100%);
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
     color: white;
     font-size: 10px;
     font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(255, 68, 68, 0.4);
-    letter-spacing: 0.3px;
+    padding: 2px 5px;
+    border-radius: 6px;
 }
 
 .product-info {
@@ -400,20 +398,20 @@ body {
 
 .product-price {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin: 6px 0;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
 }
 
-.price-label {
-    color: #666;
+.old-price {
+    color: #999;
     font-size: 11px;
-    font-weight: 500;
+    text-decoration: line-through;
 }
 
-.price-cta {
+.final-price {
     color: #003D7A;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
 }
 
