@@ -48,15 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         bannerState.dynamicMatcher = new DynamicProductMatcher();
     }
     
-    // Inicializar Gemini API (si está configurada)
-    const GEMINI_API_KEY = window.GEMINI_API_KEY || null;
-    if (GEMINI_API_KEY) {
-        bannerState.geminiAPI = new GeminiAPI(GEMINI_API_KEY);
-        bannerState.geminiAPI.setProductsDatabase(productsDatabase);
-    } else {
-        console.warn('⚠️ Gemini API key no configurada, usando sistema de keywords');
-    }
-    
     // Configurar callbacks de voz
     setupVoiceCallbacks();
     
