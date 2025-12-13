@@ -629,6 +629,7 @@ function openProductPage(product) {
         `;
         }
     }, 500);
+    }
 }
 
 // Animación de entrada
