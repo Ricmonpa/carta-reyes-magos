@@ -34,8 +34,12 @@ const ctaSection = getCtaSection();
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
     
+    // Obtener elementos del DOM (usar helpers para garantizar que existan)
+    const btn = getActionButton();
+    const inp = getMessageInput();
+    
     // Verificar que los elementos existan
-    if (!messageInput || !actionButton) {
+    if (!inp || !btn) {
         console.error('❌ Elementos del DOM no encontrados');
         return;
     }
@@ -54,17 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Verificar soporte de voz
     if (!bannerState.voiceHandler.checkSupport()) {
         console.warn('⚠️ Web Speech API no disponible');
-    } else {
     }
     
-    // Event listeners
-    const btn = getActionButton();
-    const inp = getMessageInput();
-    if (btn) btn.addEventListener('click', handleActionClick);
-    if (inp) {
-        inp.addEventListener('input', handleInputChange);
-        inp.addEventListener('keypress', handleInputKeypress);
-    }
+    // Event listeners - REGISTRAR DESPUÉS DE VERIFICAR QUE EXISTEN
+    btn.addEventListener('click', handleActionClick);
+    inp.addEventListener('input', handleInputChange);
+    inp.addEventListener('keypress', handleInputKeypress);
+    
+    // También escuchar eventos de cambio en tiempo real
+    inp.addEventListener('keyup', handleInputChange);
+    inp.addEventListener('paste', () => setTimeout(handleInputChange, 10));
     
     // Inicializar estado del botón
     updateButtonState();
