@@ -265,10 +265,12 @@ async function handleSendMessage(message) {
     let aiMessage = 'Los Reyes Magos encontraron estas opciones para ti:';
     const matcher = new ProductMatcher(productsDatabase);
     
-    // ESTRATEGIA 1: Intentar Gemini vía proxy (timeout 3s)
+    // ESTRATEGIA 1: Intentar Gemini vía proxy (timeout 3s con AbortController manual)
     try {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 3000);
+        const timer = setTimeout(() => {
+            controller.abort();
+        }, 3000);
         
         const response = await fetch('/api/gemini', {
             method: 'POST',
@@ -276,6 +278,7 @@ async function handleSendMessage(message) {
             body: JSON.stringify({ message: trimmed }),
             signal: controller.signal
         });
+        
         clearTimeout(timer);
         
         if (!response.ok) throw new Error('API response not OK');
@@ -301,8 +304,8 @@ async function handleSendMessage(message) {
         
         aiMessage = aiData.mensaje || aiMessage;
         
-    } catch (_) {
-        // ESTRATEGIA 2: Fallback local
+    } catch (error) {
+        // ESTRATEGIA 2: Fallback local garantizado
         if (typeof Enabler !== 'undefined') {
             Enabler.counter('AI Fallback to Local');
         }
@@ -312,8 +315,31 @@ async function handleSendMessage(message) {
         aiMessage = localResult.message;
     }
     
+    // GARANTÍA: Si aún no hay productos, usar búsqueda directa del mensaje
+    if (products.length === 0) {
+        const directSearch = matcher.findProducts(trimmed);
+        if (directSearch.length > 0) {
+            products = directSearch;
+        } else if (bannerState.dynamicMatcher) {
+            // Último recurso: productos dinámicos
+            const categoryMatch = bannerState.dynamicMatcher.findCategory(trimmed);
+            if (categoryMatch) {
+                products = bannerState.dynamicMatcher.generateVirtualProducts(categoryMatch, trimmed);
+            }
+        }
+    }
+    
     // Eliminar duplicados y limitar a 3
     products = [...new Map(products.map(item => [item.id, item])).values()].slice(0, 3);
+    
+    // GARANTÍA FINAL: Si aún está vacío, mostrar productos genéricos de la primera categoría disponible
+    if (products.length === 0) {
+        const firstCategory = Object.keys(productsDatabase)[0];
+        if (firstCategory && productsDatabase[firstCategory].length > 0) {
+            products = productsDatabase[firstCategory].slice(0, 3);
+            aiMessage = 'Te mostramos algunas opciones populares:';
+        }
+    }
     
     // Mostrar respuesta
     const bubble = getDialogueBubble();
@@ -325,12 +351,15 @@ async function handleSendMessage(message) {
         `;
     }
     
+    // SIEMPRE mostrar productos (garantizado)
     displayProducts(products);
 }
 
 // Mostrar estado de procesamiento
 function showProcessingState() {
-    dialogueBubble.innerHTML = `
+    const bubble = getDialogueBubble();
+    if (!bubble) return;
+    bubble.innerHTML = `
         <p class="greeting-text">
             <strong>✨ Buscando...</strong>
         </p>
@@ -485,8 +514,9 @@ function displayProducts(products) {
 
 // NUEVA FUNCIÓN: Abrir página del producto en Sanborns (búsqueda optimizada por categoría)
 function openProductPage(product) {
-    
-    dialogueBubble.innerHTML = `
+    const bubble = getDialogueBubble();
+    if (bubble) {
+        bubble.innerHTML = `
         <p class="greeting-text">
             <strong>✨ Un momento...</strong>
         </p>
@@ -511,12 +541,13 @@ function openProductPage(product) {
             'vinos': 'https://www.sanborns.com.mx/cat/regalos/vinos%20y%20licores/vinos?id=160201#modalPostalCode'
         };
         
+        const categoria = product.categoria?.toLowerCase() || '';
+        
         if (product.url_compra && product.url_compra !== '') {
             productUrl = product.url_compra;
         } else if (categoryUrls[categoria]) {
             productUrl = categoryUrls[categoria];
         } else {
-            const categoria = product.categoria?.toLowerCase() || '';
             let cleanName = product.nombre || '';
             
             // LIMPIEZA UNIVERSAL
@@ -584,7 +615,8 @@ function openProductPage(product) {
             window.open(productUrl, '_blank');
         }
         
-        dialogueBubble.innerHTML = `
+        if (bubble) {
+            bubble.innerHTML = `
             <p class="greeting-text">
                 <strong>✅ ¡Listo!</strong>
             </p>
@@ -592,6 +624,7 @@ function openProductPage(product) {
                 ¿Quieres buscar algo más?
             </p>
         `;
+        }
     }, 500);
 }
 

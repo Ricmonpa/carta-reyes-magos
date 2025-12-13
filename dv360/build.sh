@@ -13,18 +13,19 @@ fi
 
 # Crear ZIP
 echo "📦 Creating ZIP file..."
-zip -r sanborns-reyes-magos-300x600.zip \
+zip -r sanborns-reyes-magos-300x600-FINAL.zip \
     index.html \
     styles.css \
     main.js \
     voice.js \
     products-data.js \
+    dynamic-products.js \
     manifest.json \
     images/ \
-    -x "*.DS_Store" "*.git*" "build.sh"
+    -x "*.DS_Store" "*.git*" "build.sh" "*.zip"
 
 # Verificar tamaño
-SIZE=$(stat -f%z sanborns-reyes-magos-300x600.zip 2>/dev/null || stat -c%s sanborns-reyes-magos-300x600.zip 2>/dev/null)
+SIZE=$(stat -f%z sanborns-reyes-magos-300x600-FINAL.zip 2>/dev/null || stat -c%s sanborns-reyes-magos-300x600-FINAL.zip 2>/dev/null)
 SIZE_KB=$((SIZE / 1024))
 
 echo ""
@@ -40,7 +41,7 @@ fi
 
 echo ""
 echo "📁 Files included:"
-unzip -l sanborns-reyes-magos-300x600.zip | tail -n +4 | head -n -2
+unzip -l sanborns-reyes-magos-300x600-FINAL.zip | tail -n +4 | head -n -2
 
 echo ""
 echo "🎉 Ready for DV360 upload!"
