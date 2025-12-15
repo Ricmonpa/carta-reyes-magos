@@ -98,6 +98,7 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 20px;
+    flex-shrink: 0;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -284,11 +285,17 @@ body {
 /* Products Container */
 .products-container {
     display: none;
-    margin: 10px 0;
-    max-height: 280px;
+    margin: 8px 0;
+    max-height: 320px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 5px 0;
     z-index: 10;
+    flex-shrink: 0;
+    /* Scroll suave */
+    scroll-behavior: smooth;
+    /* Asegurar que el scrollbar sea visible */
+    scrollbar-width: thin;
 }
 
 @keyframes slideUp {
@@ -307,7 +314,7 @@ body {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     display: flex;
     gap: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -315,6 +322,8 @@ body {
     animation: slideUp 0.4s ease-out both;
     cursor: pointer;
     position: relative;
+    flex-shrink: 0;
+    min-height: 90px;
 }
 
 .product-card:hover {

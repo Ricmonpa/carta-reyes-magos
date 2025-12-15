@@ -496,11 +496,21 @@ function displayProducts(products) {
                     <span class="price-cta">Ver ofertas →</span>
                 </div>
                 <p class="product-store">📍 ${product.tiendas_cercanas[0]}</p>
-                <button class="product-cta" onclick="event.stopPropagation(); openProductPage(product);">
+                <button class="product-cta">
                     Ver en Sanborns →
                 </button>
             </div>
         `;
+        
+        // Agregar event listener al botón después de crear el HTML
+        const ctaButton = productCard.querySelector('.product-cta');
+        if (ctaButton) {
+            ctaButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openProductPage(product);
+            });
+        }
+        
         productsContainer.appendChild(productCard);
     });
     
@@ -513,6 +523,29 @@ function displayProducts(products) {
     
     // Mostrar con animación
     productsContainer.style.display = 'block';
+    
+    // Reducir el tamaño del diálogo cuando hay productos para dar más espacio
+    const bubble = getDialogueBubble();
+    if (bubble && products.length > 0) {
+        bubble.style.padding = '12px 16px';
+        bubble.style.marginBottom = '8px';
+        bubble.style.fontSize = '14px';
+    }
+    
+    // Scroll automático suave al contenedor de productos para que sean visibles
+    setTimeout(() => {
+        // Asegurar que el contenedor sea visible
+        if (productsContainer.scrollHeight > productsContainer.clientHeight) {
+            productsContainer.scrollTop = 0;
+        }
+        
+        // Scroll suave del banner al contenedor de productos
+        productsContainer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest',
+            inline: 'nearest'
+        });
+    }, 150);
 }
 
 // NUEVA FUNCIÓN: Abrir página del producto en Sanborns (búsqueda optimizada por categoría)
